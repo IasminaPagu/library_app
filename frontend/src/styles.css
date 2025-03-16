@@ -1,0 +1,185 @@
+/* ==================== RESET ==================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==================== BODY ==================== */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* ==================== TYPOGRAPHY ==================== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+/* ==================== COLORS ==================== */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #ff5722;
+    --background-color: #f4f4f4;
+    --text-color: #333;
+}
+
+.primary-text {
+    color: var(--primary-color);
+}
+
+.secondary-text {
+    color: var(--secondary-color);
+}
+
+/* ==================== LINKS ==================== */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+/* ==================== BUTTONS ==================== */
+button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* ==================== LAYOUT ==================== */
+main {
+    display: flex;
+    flex-direction: column; /* Aliniază toate elementele vertical */
+    align-items: center; /* Centrează elementele pe orizontală */
+    gap: 30px; /* Spațiere constantă între elemente */
+    padding: 20px;
+}
+
+/* ==================== FLEXBOX & GRID ==================== */
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr; /* O singură coloană pentru aliniere verticală */
+    gap: 20px;
+    width: 100%; /* Forțează grid-ul să ocupe toată lățimea disponibilă */
+    max-width: 500px;
+}
+
+@media (min-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ==================== BORDERS & SHADOWS ==================== */
+.border {
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.shadow {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== SPACING ==================== */
+.m-1 { margin: 4px; }
+.m-2 { margin: 8px; }
+.m-3 { margin: 16px; }
+.m-4 { margin: 24px; }
+
+.p-1 { padding: 4px; }
+.p-2 { padding: 8px; }
+.p-3 { padding: 16px; }
+.p-4 { padding: 24px; }
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease;
+}
+
+/* ==================== GALERIE DE IMAGINI ==================== */
+.image-gallery {
+    display: flex;
+    flex-direction: column; /* Așează imaginile în coloană */
+    align-items: center; /* Centrează-le pe orizontală */
+    gap: 20px; /* Spațiu între imagini */
+    margin-top: 20px;
+}
+
+.gallery-image {
+    width: 100%; /* Imaginile ocupă întreaga lățime disponibilă */
+    max-width: 400px; /* Dimensiune maximă pentru a evita imagini uriașe */
+    height: auto;
+    object-fit: cover; /* Păstrează proporțiile imaginilor */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #f0f0f0;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-image {
+        width: 90%; /* Imaginile ocupă 90% din lățimea containerului */
+        max-width: 300px;
+    }
+}
