@@ -179,7 +179,23 @@
 
 <main class="main">
 
+  <div class = "app">
+    <app-header [pageTitle] = "'Frontend authentificated with JWT'"
+                [logoSrc] = "'images/logo.png'"></app-header>
+  </div>
+  <app-auth-content>
 
+  </app-auth-content>
+  <app-content>
+
+  </app-content>
+
+  <!--    i start by creating a wrappper
+  and inside a include the header component, with the title as a variable
+  and the logopath as a variable too
+  -->
+
+<!--  and then I create the header componenent, in the header.component.ts-->
     <h1 class="primary-text">Library application</h1>
     <h2 class="secondary-text">Homepage</h2>
     <p>Acestea sunt cartile noastre preferate</p>
