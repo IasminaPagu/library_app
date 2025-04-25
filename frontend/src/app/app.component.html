@@ -180,8 +180,13 @@
 <main class="main">
 
   <div class = "app">
-    <app-header [pageTitle] = "'Frontend authentificated with JWT'"
-                [logoSrc] = "'images/logo.png'"></app-header>
+    <app-header
+      (loginEvent)="onLoginClick()"
+      (logoutEvent)="onLogoutClick()"
+      [pageTitle]="'Frontend authentificated with JWT'"
+      [logoSrc]="'images/logo.png'">
+    </app-header>
+
   </div>
   <app-auth-content>
 

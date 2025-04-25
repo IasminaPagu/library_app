@@ -171,3 +171,8 @@ main {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+body {
+  background: linear-gradient(to right, #fce4ec 0%, white 15%, white 85%, #fce4ec 100%);
+  font-family: 'Arial', sans-serif;
+  color: var(--text-color);
+}
