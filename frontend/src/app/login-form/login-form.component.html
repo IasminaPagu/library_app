@@ -1,0 +1,51 @@
+<!-- Tab navigation -->
+<ul class="nav nav-pills nav-justified mb-3">
+  <li class="nav-item">
+    <button class="nav-link" [ngClass]="{ active: active === 'login' }" (click)="onLoginTab()">Login</button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link" [ngClass]="{ active: active === 'register' }" (click)="onRegisterTab()">Register</button>
+  </li>
+</ul>
+
+<!-- Tab content -->
+<div class="tab-content">
+
+  <!-- Login Form -->
+  <div [ngClass]="{ 'tab-pane fade show active': active === 'login', 'tab-pane fade': active !== 'login' }">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmitLogin()">
+      <div class="form-outline mb-4">
+        <label for="loginName">Username</label>
+        <input class="form-control" type="text" id="loginName" name="login" [(ngModel)]="login" />
+      </div>
+      <div class="form-outline mb-4">
+        <label for="loginPassword">Password</label>
+        <input class="form-control" type="password" id="loginPassword" name="password" [(ngModel)]="password" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+    </form>
+  </div>
+
+  <!-- Register Form -->
+  <div [ngClass]="{ 'tab-pane fade show active': active === 'register', 'tab-pane fade': active !== 'register' }">
+    <form #registerForm="ngForm" (ngSubmit)="onSubmitRegister()">
+      <div class="form-outline mb-4">
+        <label for="firstName">First Name</label>
+        <input class="form-control" type="text" id="firstName" name="firstName" [(ngModel)]="firstName" />
+      </div>
+      <div class="form-outline mb-4">
+        <label for="lastName">Last Name</label>
+        <input class="form-control" type="text" id="lastName" name="lastName" [(ngModel)]="lastName" />
+      </div>
+      <div class="form-outline mb-4">
+        <label for="loginNameRegister">Username</label>
+        <input class="form-control" type="text" id="loginNameRegister" name="login" [(ngModel)]="login" />
+      </div>
+      <div class="form-outline mb-4">
+        <label for="loginPasswordRegister">Password</label>
+        <input class="form-control" type="password" id="loginPasswordRegister" name="password" [(ngModel)]="password" />
+      </div>
+      <button type="submit" class="btn btn-success btn-block mb-4">Register</button>
+    </form>
+  </div>
+</div>

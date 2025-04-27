@@ -1,48 +1,59 @@
 package com.library.config;
 
-import com.library.service.JwtService;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
+import org.springframework.http.HttpHeaders;
 
-public class JwtAuthFilter extends GenericFilter {
 
-    private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
+@RequiredArgsConstructor
+public class JwtAuthFilter extends OncePerRequestFilter {
 
-    public JwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService) {
-        this.jwtService = jwtService;
-        this.userDetailsService = userDetailsService;
-    }
+    private final UserAuthProvider userAuthProvider;
+
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
+            throws ServletException, IOException {
+        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String authHeader = httpRequest.getHeader("Authorization");
+        if(header != null){
+            String[] authElements = header.split(" ");
 
-        String path = httpRequest.getServletPath();
-        if (path.startsWith("/api/auth") || path.startsWith("/api/books")) {
-            chain.doFilter(request, response);
-            return;
-        }
+            if(authElements.length == 2 && "Bearer".equals(authElements[0])){
+                try{
+                    //in the HTTP filter i first check the HTTP verb
+                    //if it's a GET, i continue as before
+                    //otherwise, if it's a PUT
+                    //or DELETE i use a stronger vaidation
+                    if("GET".equals(request.getMethod())){
+                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateToken(authElements[1]));
+                    }else{
+                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateTokenStrongly(authElements[1]));
+                    }
 
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            if (jwtService.isTokenValid(token)) {
-                String username = jwtService.extractUsername(token);
-                var userDetails = userDetailsService.loadUserByUsername(username);
-                var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                } catch (RuntimeException e) {
+                    SecurityContextHolder.clearContext();
+                    throw e;
+                }
             }
         }
+         //i first check if there is an authorization header
+        //and the first part is a Bearer
 
-        chain.doFilter(request, response);
+
+        //at the end continue the filter chain
+        filterChain.doFilter(request,response);
+        //and now i use this filter in the security config
     }
-
 }

@@ -1,0 +1,24 @@
+
+<!--<header class="app-header">-->
+<!--  <img src={{logoSrc}} class="app-logo" alt="logo"/>-->
+<!--  <h1 class="app-title">{{pageTitle}}</h1>-->
+<!--</header>-->
+
+<header class="navbar">
+  <div class="navbar-section logo-title">
+    <img [src]="logoSrc" class="app-logo" alt="logo" />
+    <h1 class="app-title">{{ pageTitle }}</h1>
+  </div>
+
+  <div class="navbar-section search">
+    <input type="text" placeholder="Caută produse..." class="search-bar" />
+  </div>
+
+  <div class="navbar-section actions">
+    <button class="nav-button" (click)="loginEvent.emit()">Login</button>
+    <button class="nav-button" (click)="logoutEvent.emit()">Logout</button>
+    <button class="nav-button">Wishlist</button>
+    <button class="nav-button">Coș</button>
+  </div>
+</header>
+
