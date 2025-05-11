@@ -10,15 +10,30 @@
     <h1 class="app-title">{{ pageTitle }}</h1>
   </div>
 
-  <div class="navbar-section search">
-    <input type="text" placeholder="Caută produse..." class="search-bar" />
-  </div>
-
   <div class="navbar-section actions">
     <button class="nav-button" (click)="loginEvent.emit()">Login</button>
     <button class="nav-button" (click)="logoutEvent.emit()">Logout</button>
     <button class="nav-button">Wishlist</button>
     <button class="nav-button">Coș</button>
   </div>
+
+  <div class="navbar-section search">
+    <input type="text"
+           [(ngModel)]="searchTerm"
+           placeholder="Caută produse..."
+           class="search-bar"
+           (keyup.enter)="onSearch()" />
+    <button class="nav-button" (click)="onSearch()">Caută</button>
+  </div>
+
+  <!-- Mesaj de eroare -->
+  <p *ngIf="errorMessage" style="color: red; margin-top: 10px">{{ errorMessage }}</p>
+
+  <!-- Rezultate -->
+  <ul *ngIf="books.length > 0" style="margin-top: 10px">
+    <li *ngFor="let book of books">
+      {{ book.title }} - {{ book.author }} ({{ book.publishedYear }})
+    </li>
+  </ul>
 </header>
 
