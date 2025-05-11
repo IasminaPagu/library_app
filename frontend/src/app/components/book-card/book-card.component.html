@@ -1,0 +1,5 @@
+<a [routerLink]="['/books', book.id]" class="book-card">
+  <img [src]="book.imageUrl || 'https://via.placeholder.com/150'" alt="coperta" />
+  <h3>{{ book.title }}</h3>
+  <p>{{ book.author }}</p>
+</a>
