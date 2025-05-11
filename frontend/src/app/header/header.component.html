@@ -1,21 +1,13 @@
-
-<!--<header class="app-header">-->
-<!--  <img src={{logoSrc}} class="app-logo" alt="logo"/>-->
-<!--  <h1 class="app-title">{{pageTitle}}</h1>-->
-<!--</header>-->
-
 <header class="navbar">
   <div class="navbar-section logo-title">
-    <img [src]="logoSrc" class="app-logo" alt="logo" />
+    <a routerLink="/" class="logo-link">
+      <img [src]="logoSrc" class="app-logo" alt="logo" />
+    </a>
     <h1 class="app-title">{{ pageTitle }}</h1>
   </div>
 
-  <div class="navbar-section actions">
-    <button class="nav-button" (click)="loginEvent.emit()">Login</button>
-    <button class="nav-button" (click)="logoutEvent.emit()">Logout</button>
-    <button class="nav-button">Wishlist</button>
-    <button class="nav-button">Coș</button>
-  </div>
+
+
 
   <div class="navbar-section search">
     <input type="text"
@@ -25,6 +17,18 @@
            (keyup.enter)="onSearch()" />
     <button class="nav-button" (click)="onSearch()">Caută</button>
   </div>
+  <div class="navbar-section actions">
+    <br>
+    <button class="nav-button" (click)="loginEvent.emit()">Login</button>
+    <button class="nav-button" (click)="logoutEvent.emit()">Logout</button>
+    <button class="nav-button">Wishlist</button>
+    <button class="nav-button">Coș</button>
+  </div>
+  <app-book-card *ngFor="let book of books"
+                 [book]="getBookWithImage(book)">
+  </app-book-card>
+
+
 
   <!-- Mesaj de eroare -->
   <p *ngIf="errorMessage" style="color: red; margin-top: 10px">{{ errorMessage }}</p>
@@ -36,4 +40,3 @@
     </li>
   </ul>
 </header>
-

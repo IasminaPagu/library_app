@@ -1,118 +1,4 @@
 
-/*.app-logo {
-  height: 80px;
-}
-
-.app-header {
-  background-color: #ff69b4;
-  height: 200px;
-  padding: 20px;
-  color: white;
-  text-align: center;
-
-}
-
-.app-title {
-  font-size: 1.5em;
-
-}*/
-/*
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--primary-color);
-  padding: 10px 20px;
-  color: white;
-  border-radius: 10px;
-}
-
-.navbar-section {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo-title img.app-logo {
-  height: 50px;
-}
-
-.app-title {
-  font-size: 1.4rem;
-}
-
-.search-bar {
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
-  width: 250px;
-}
-
-.nav-button {
-  background-color: white;
-  color: var(--primary-color);
-  padding: 6px 12px;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.nav-button:hover {
-  background-color: var(--secondary-color);
-  color: white;
-}
-*/
-
-/*
-:root {
-  --primary-color: #eec9d2;
-  --secondary-color: #ff85a2;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--primary-color);
-  padding: 10px 20px;
-  color: white;
-  border-radius: 10px;
-  margin: 0 auto;
-  max-width: 1200px;
-}
-
-.navbar-section {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo-title img.app-logo {
-  height: 50px;
-}
-
-.search-bar {
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 14px;
-  width: 250px;
-}
-
-.nav-button {
-  background-color: white;
-  color: var(--primary-color);
-  padding: 6px 12px;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color
-*/
-
 :root {
   --primary-color: #f7d9e3;      /* roz pudrat navbar */
   --accent-color: #c94f7c;       /* roz vișiniu pentru hover */
@@ -171,4 +57,10 @@
   background-color: var(--accent-color);
   color: white;
 }
+.logo-link {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
 

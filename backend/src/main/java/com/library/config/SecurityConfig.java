@@ -34,6 +34,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/messages").permitAll() // 👈 allow access
                                 .requestMatchers(HttpMethod.GET, "/books/search").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
+//                                .requestMatchers(HttpMethod.GET, "/books/*").permitAll()
+//                                .requestMatchers(HttpMethod.GET, "/books/{id}").permitAll()
                                 .anyRequest().authenticated()
                 );
         return http.build();

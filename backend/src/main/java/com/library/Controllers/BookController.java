@@ -25,5 +25,12 @@ public class BookController {
         List<Book> results = bookRepository.findByTitleContaining(title);
         return ResponseEntity.ok(results);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable("id") Integer id) {
+        return bookRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
 }

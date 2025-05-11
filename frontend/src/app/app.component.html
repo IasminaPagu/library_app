@@ -178,49 +178,68 @@
 </style>
 
 <main class="main">
+  <!-- Header fix sus -->
+  <app-header
+    (loginEvent)="onLoginClick()"
+    (logoutEvent)="onLogoutClick()"
+    [pageTitle]="'Welcome to LibriSfera\n'"
+    [logoSrc]="'images/logo.png'">
+  </app-header>
 
-  <div class = "app">
-    <app-header
-      (loginEvent)="onLoginClick()"
-      (logoutEvent)="onLogoutClick()"
-      [pageTitle]="'Frontend authentificated with JWT'"
-      [logoSrc]="'images/logo.png'">
-    </app-header>
-
-  </div>
-  <app-auth-content>
+  <!-- Pagina curentă din router -->
+  <router-outlet></router-outlet>
+  <app-auth-content>-->
 
   </app-auth-content>
-  <app-content>
+  <app-content></app-content>
+</main>
 
-  </app-content>
+<!--<main class="main">-->
 
-  <!--    i start by creating a wrappper
-  and inside a include the header component, with the title as a variable
-  and the logopath as a variable too
-  -->
+<!--  <div class = "app">-->
+<!--    <app-header-->
+<!--      (loginEvent)="onLoginClick()"-->
+<!--      (logoutEvent)="onLogoutClick()"-->
+<!--      [pageTitle]="'Frontend authentificated with JWT'"-->
+<!--      [logoSrc]="'images/logo.png'">-->
+<!--    </app-header>-->
 
-<!--  and then I create the header componenent, in the header.component.ts-->
-    <h1 class="primary-text">Library application</h1>
-    <h2 class="secondary-text">Homepage</h2>
-    <p>Acestea sunt cartile noastre preferate</p>
+<!--  </div>-->
+<!--  <app-auth-content>-->
+
+<!--  </app-auth-content>-->
+<!--  <app-content>-->
+
+<!--  </app-content>-->
+
+<!--  &lt;!&ndash;    i start by creating a wrappper-->
+<!--  and inside a include the header component, with the title as a variable-->
+<!--  and the logopath as a variable too-->
+<!--  &ndash;&gt;-->
+
+<!--&lt;!&ndash;  and then I create the header componenent, in the header.component.ts&ndash;&gt;-->
+<!--    <h1 class="primary-text">Library application</h1>-->
+<!--    <h2 class="secondary-text">Homepage</h2>-->
+<!--    <p>Acestea sunt cartile noastre preferate</p>-->
 
 
-    <div class="grid-2">
-      <div class="border shadow p-2">Element 1</div>
-      <div class="border shadow p-2">Element 2</div>
-    </div>
+<!--    <div class="grid-2">-->
+<!--      <div class="border shadow p-2">Element 1</div>-->
+<!--      <div class="border shadow p-2">Element 2</div>-->
+<!--    </div>-->
 
 
-    <div class="flex-center fade-in border shadow p-3" style="height: 150px">
-      <h3 class="slide-in">Animație slide-in + flexbox</h3>
-    </div>
+<!--    <div class="flex-center fade-in border shadow p-3" style="height: 150px">-->
+<!--      <h3 class="slide-in">Animație slide-in + flexbox</h3>-->
+<!--    </div>-->
 
-  <div class="image-gallery">
-    <img src="images/carte_gety.jpg" alt="Photo 1" class="gallery-image" />
-    <img src="images/carte_iasmi.jpg" alt="Photo 2" class="gallery-image" />
-    <img src="images/carte_vlad.jpg" alt="Photo 3" class="gallery-image" />
-  </div>
+<!--  <div class="image-gallery">-->
+<!--    <img src="images/carte_gety.jpg" alt="Photo 1" class="gallery-image" />-->
+<!--    <img src="images/carte_iasmi.jpg" alt="Photo 2" class="gallery-image" />-->
+<!--    <img src="images/carte_vlad.jpg" alt="Photo 3" class="gallery-image" />-->
+<!--  </div>-->
+<!--  <router-outlet></router-outlet>-->
+<!--</main>-->
 
 
 <!--  <div class="content">-->
@@ -367,7 +386,7 @@
 <!--      </div>-->
 <!--    </div>-->
 <!--  </div>-->
-</main>
+
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
@@ -376,6 +395,3 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-
-<router-outlet />
