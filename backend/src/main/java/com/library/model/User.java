@@ -1,10 +1,7 @@
 package com.library.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Data
@@ -21,41 +18,27 @@ public class User {
     //with a generated value automatically generated when creating an entity
     private Long id;
 
+    @Setter
     @Column(nullable = false)
     private String firstName;
 
+    @Setter
     @Column(nullable = false)
     private String lastName;
 
+    @Setter
     @Column(nullable = false)
     private String login;
 
+    @Setter
+    @Getter
     @Column(nullable = false)
     private String password;
 
-    public String getPassword() {
-        return this.password;
-    }
     //You store the password (encrypted!) so users can log in later.
     //in the UserDto i have a token in loc de password, deoarece
     //token --- is used to send data back to the frontend, but i don't want to send the credentials
     //over the internet, i mean to the frontend
     //Instead, once the user logs in successfully, you generate a JWT token and send that in the response.
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
 
 }

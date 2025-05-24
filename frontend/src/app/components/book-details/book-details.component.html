@@ -1,0 +1,43 @@
+<!--<div class="book-details-container">-->
+<!--  <div class="book-image">-->
+<!--    <img [src]="'assets/images/' + book?.imageUrl" [alt]="book?.title" />-->
+<!--  </div>-->
+
+<!--  <div class="book-info">-->
+<!--    <h2>{{ book?.title }}</h2>-->
+<!--    <p><strong>Autor:</strong> {{ book?.author }}</p>-->
+<!--    <p><strong>ISBN:</strong> {{ book?.isbn }}</p>-->
+<!--    <p><strong>An publicare:</strong> {{ book?.publishedYear }}</p>-->
+<!--    <p><strong>Categorie:</strong> {{ book?.category }}</p>-->
+<!--    <p><strong>Descriere:</strong> {{ book?.description }}</p>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>-->
+
+<div class="book-details-wrapper" *ngIf="book; else errorBlock">
+  <div class="book-card">
+    <img
+      class="book-cover-detail"
+      [src]="'/assets/images/' + book.imageUrl"
+      [alt]="book.title"
+    />
+
+    <div class="book-info">
+      <h2>{{ book.title }}</h2>
+
+      <p><strong>Autor:</strong> {{ book.author }}</p>
+      <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+      <p><strong>An publicare:</strong> {{ book.publishedYear }}</p>
+      <p><strong>Categorie:</strong> {{ book.category }}</p>
+      <p><strong>Descriere:</strong> {{ book.description }}</p>
+      <button type="button" (click)="addToCart()">Adaugă în coș</button>
+    </div>
+  </div>
+
+
+</div>
+
+<ng-template #errorBlock>
+  <p class="error-message">Cartea nu a fost gasita.</p>
+</ng-template>

@@ -1,6 +1,14 @@
-<div class="row justify-content-md-center">
-  <div class="jumbotron jumbotron-fluid">
-    <h1 class="display-4">WELCOME TO THE auth welcome message</h1>
-    <p class="lead">Login to see the protected content</p>
+<div class="book-grid">
+  <div
+    class="book-card"
+    *ngFor="let book of books"
+    [routerLink]="['/books', book.id]"
+  >
+    <img
+      class="book-cover"
+      [src]="'/assets/images/' + book.imageUrl"
+      [alt]="book.title"
+    />
+    <div class="book-title">{{ book.title }}</div>
   </div>
 </div>

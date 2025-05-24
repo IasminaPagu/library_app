@@ -1,21 +1,10 @@
-<div class="row justify-content-md-center">
-  <div class="col-4">
-    <div class="card" style="width: 18rem">
-      <div class="card-body">
-        <h5 class="card-title">Backend response</h5>
-        <p class="card-text">Content:</p>
-          <ul>
-            <li *ngFor="let line of data">{{line}}</li>
-            <!--
-            i use a for loop to display the content
-            out app is completely rendered, but still the backend
-            doesn t send any response, because of the CORS error
-            !! when i connect my frontend app with the backend, i need to enable de
-            CORS which will accept an external frontend to access my backend
+<!-- src/app/auth-content.component.html -->
+<!--<app-login-form-->
+<!--  (onSubmitLoginEvent)="onLogin($event)"-->
+<!--  (onSubmitRegisterEvent)="onRegister($event)">-->
+<!--</app-login-form>-->
 
-            -->
-          </ul>
-      </div>
-    </div>
-  </div>
-</div>
+<!--&lt;!&ndash; după login, afişează mesajele &ndash;&gt;-->
+<!--<ul *ngIf="isLoggedIn">-->
+<!--  <li *ngFor="let msg of data">{{ msg }}</li>-->
+<!--</ul>-->

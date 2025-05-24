@@ -52,6 +52,7 @@ public class UserAuthProvider {
                 .withClaim("firstName",dto.getFirstName())
                 .withClaim("lastName", dto.getLastName())
                 .sign(Algorithm.HMAC256(secretKey));
+
     }
     public Authentication validateToken(String token){
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
@@ -84,11 +85,25 @@ public class UserAuthProvider {
         //the stronger validation starts as before, but i will
         //also check in the repository the existance of the user
 
+//        User user = userRepository.findByLogin(decoded.getIssuer())
+//                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+//
+//        //but i will also check in the repo the existance of the user
+//        return new UsernamePasswordAuthenticationToken(userMapper.toUserDto(user),null, Collections.emptyList());
+        //as before, return an authentification Bean
+
+        // NEW:
         User user = userRepository.findByLogin(decoded.getIssuer())
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
 
-        //but i will also check in the repo the existance of the user
-        return new UsernamePasswordAuthenticationToken(userMapper.toUserDto(user),null, Collections.emptyList());
-        //as before, return an authentification Bean
+        // map it into your DTO (now id/login/etc. are set):
+        UserDto dto = userMapper.toUserDto(user);
+
+        return new UsernamePasswordAuthenticationToken(
+                dto,
+                null,
+                Collections.emptyList()
+        );
+
     }
 }

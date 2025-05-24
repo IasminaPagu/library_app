@@ -5,6 +5,7 @@ import com.library.dtos.CredentialsDto;
 import com.library.dtos.UserDto;
 import com.library.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
 
@@ -25,9 +27,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody CredentialsDto credentialsDto) {
         UserDto user = userService.login(credentialsDto);
+        log.info("🎯 after login(), UserDto = {}", user);
+        // or if you just want the login field:
+        log.info("🎯 after login(), user.getLogin() = {}", user.getLogin());
         //this is the point i return after the the modifications made in
         //UserAuthProvider.java for the JWT
         user.setToken(userAuthProvider.createToken(user));
+        log.info("AFTER LOGIN – UserDto = {}", user);
         return ResponseEntity.ok(user);
     //i will create the CredentialsDto as a record
     // and UserDto as a POJO - Plain Old Java Object

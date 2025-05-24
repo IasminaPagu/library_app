@@ -8,6 +8,8 @@ import com.library.model.User;
 import com.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.library.dtos.SignUpDto;
@@ -26,20 +28,25 @@ public class UserService {
     private final UserMapper userMapper;
 
 
-    public UserDto login(CredentialsDto credentialsDto) {
-        User user = userRepository.findByLogin(credentialsDto.login())
-                .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
-        //and now i compare the given password with the password stored in the db
-        if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password()),
-                user.getPassword())) {
-            return userMapper.toUserDto(user);
-        //if it s correct, i map the user from the database to a user DTO
-
+    public UserDto login(CredentialsDto creds) {
+        User user = userRepository.findByLogin(creds.login())
+                .orElseThrow(() -> new UsernameNotFoundException("No user " + creds.login()));
+        if (!passwordEncoder.matches(creds.password(), user.getPassword())) {
+            throw new BadCredentialsException("Bad password");
         }
-        throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
-        //and if not, i throw another exception
-
+        // map entity → DTO (will include id)
+        return userMapper.toUserDto(user);
     }
+
+    /** Used by CartController to look up the full UserDto by name in the JWT. */
+    public UserDto findByLogin(String login) {
+        User user = userRepository.findByLogin(login)
+                .orElseThrow(() -> new UsernameNotFoundException("No user " + login));
+        return userMapper.toUserDto(user);
+    }
+
+    // … register(...) similarly maps and then dto.setLogin(...)
+
 //    public UserDto register(SignUpDto signUpDto){
 //        Optional<User> oUser = userRepository.findByLogin(signUpDto.login());
 //        //if the user is already stored in the database i throw a new exception
