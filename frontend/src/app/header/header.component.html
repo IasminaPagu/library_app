@@ -21,8 +21,15 @@
   </div>
   <div class="navbar-section actions">
     <br>
-    <button class="nav-button" (click)="loginEvent.emit()">Login</button>
-    <button class="nav-button" (click)="logoutEvent.emit()">Logout</button>
+    <button
+      class="nav-button"
+      routerLink="/login"
+      [queryParams]="{ returnUrl: router.url }">
+      Login
+    </button>
+
+
+    <button class="nav-button" (click)="logout()">Logout</button>
     <button class="nav-button">Wishlist</button>
     <button class="nav-button">Coș</button>
     <button class="toggle-theme" (click)="toggleTheme()">

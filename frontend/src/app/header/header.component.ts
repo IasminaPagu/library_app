@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { AxiosService } from '../axios.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class HeaderComponent {
 
   constructor(
     private bookService: BookService,
-    private router: Router
+    private axiosService: AxiosService,
+    public router: Router
   ) {}
 
 
@@ -44,6 +46,13 @@ export class HeaderComponent {
   //     }
   //   });
   // }
+
+  goToLogin() {
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: this.router.url }
+      });
+    }
+
   onSearch() {
     if (!this.searchTerm.trim()) return;
 
@@ -60,6 +69,15 @@ export class HeaderComponent {
         this.errorMessage = 'Eroare la conectarea cu baza de date.';
       }
     });
+  }
+
+ logout(): void {
+    // 1) clear the saved JWT
+    this.axiosService.setAuthToken(null);
+    // 2) show the "logged out" alert
+    alert('👋 You have been logged out.');
+    // 3) navigate home (or wherever you like)
+    this.router.navigateByUrl('/');
   }
 
   getBookWithImage(book: Book): Book {

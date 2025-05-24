@@ -1,58 +1,53 @@
-import { Component, EventEmitter,Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login-form',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.css'
+  styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent {
-  @Output() onSubmitLoginEvent = new EventEmitter();
-  //i create an output form, this way the submit method will be on the content component
-  //in the parent component
-  //having the login request in the parent component allows me to handle the response and switch
-  //from the login form to the auth content component once authentificated
-   @Output() onSubmitRegisterEvent = new EventEmitter();
+  @Output() onSubmitLoginEvent = new EventEmitter<{ login: string; password: string }>();
+  @Output() onSubmitRegisterEvent = new EventEmitter<{
+    firstName: string;
+    lastName: string;
+    login: string;
+    password: string;
+  }>();
 
-  login: string = "";
-  firstName: string = "";
-  lastName: string = "";
-  password: string = "";
-  active: string = "login";
-  //now i create the variable which will contain the login and the password
-
+  // form models & UI state
+  active: 'login' | 'register' = 'login';
+  login = '';
+  password = '';
+  firstName = '';
+  lastName = '';
+  showPassword = false;
 
   onLoginTab(): void {
-    this.active = "login";
-    //this is the method to switch beetween the forms
+    this.active = 'login';
   }
 
-  onRegisterTab(): void{
-    this.active = "register";
+  onRegisterTab(): void {
+    this.active = 'register';
   }
-  onSubmitLogin(): void{
-    this.onSubmitLoginEvent.emit({"login": this.login,"password": this.password})
+
+  onSubmitLogin(): void {
+    this.onSubmitLoginEvent.emit({ login: this.login, password: this.password });
   }
-  //this method will emit the output variable
-  onSubmitRegister(): void{
+
+  onSubmitRegister(): void {
     this.onSubmitRegisterEvent.emit({
-      "firstName": this.firstName,
-      "lastName": this.lastName,
-      "login": this.login,
-      "password": this.password})
-    //this is the method which will pe used when i submit the register form
+      firstName: this.firstName,
+      lastName: this.lastName,
+      login: this.login,
+      password: this.password
+    });
   }
-
-
-  showPassword = false;
 
   toggleShowPassword(): void {
     this.showPassword = !this.showPassword;
   }
-
-
-
 }
