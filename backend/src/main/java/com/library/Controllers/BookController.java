@@ -32,5 +32,10 @@ public class BookController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping
+    public ResponseEntity<List<Book>> getAllBooks() {
+        List<Book> all = bookRepository.findAll();
+        return ResponseEntity.ok(all);
+    }
 
 }

@@ -14,15 +14,52 @@
   <!-- Login Form -->
   <div [ngClass]="{ 'tab-pane fade show active': active === 'login', 'tab-pane fade': active !== 'login' }">
     <form #loginForm="ngForm" (ngSubmit)="onSubmitLogin()">
+
       <div class="form-outline mb-4">
         <label for="loginName">Username</label>
-        <input class="form-control" type="text" id="loginName" name="login" [(ngModel)]="login" />
+        <input
+          class="form-control"
+          type="text"
+          id="loginName"
+          name="login"
+          [(ngModel)]="login"
+        />
       </div>
-      <div class="form-outline mb-4">
+
+      <div class="form-outline mb-4" style="position: relative;">
         <label for="loginPassword">Password</label>
-        <input class="form-control" type="password" id="loginPassword" name="password" [(ngModel)]="password" />
+        <input
+          class="form-control"
+          [type]="showPassword ? 'text' : 'password'"
+          id="loginPassword"
+          name="password"
+          [(ngModel)]="password"
+        />
+        <button
+          type="button"
+          (click)="toggleShowPassword()"
+          aria-label="Toggle password visibility"
+          style="
+            position: absolute;
+            top: 50%;
+            right: 0.75rem;
+            background: grey;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            font-size: 1rem;
+            line-height: 1;
+            color: white;
+            border-radius: 0.25rem;
+          "
+        >
+          <span *ngIf="showPassword">&#128065;</span>
+          <span *ngIf="!showPassword">&#128068;</span>
+        </button>
       </div>
+
       <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
     </form>
   </div>
 
@@ -31,19 +68,64 @@
     <form #registerForm="ngForm" (ngSubmit)="onSubmitRegister()">
       <div class="form-outline mb-4">
         <label for="firstName">First Name</label>
-        <input class="form-control" type="text" id="firstName" name="firstName" [(ngModel)]="firstName" />
+        <input
+          class="form-control"
+          type="text"
+          id="firstName"
+          name="firstName"
+          [(ngModel)]="firstName"
+        />
       </div>
       <div class="form-outline mb-4">
         <label for="lastName">Last Name</label>
-        <input class="form-control" type="text" id="lastName" name="lastName" [(ngModel)]="lastName" />
+        <input
+          class="form-control"
+          type="text"
+          id="lastName"
+          name="lastName"
+          [(ngModel)]="lastName"
+        />
       </div>
       <div class="form-outline mb-4">
         <label for="loginNameRegister">Username</label>
-        <input class="form-control" type="text" id="loginNameRegister" name="login" [(ngModel)]="login" />
+        <input
+          class="form-control"
+          type="text"
+          id="loginNameRegister"
+          name="login"
+          [(ngModel)]="login"
+        />
       </div>
-      <div class="form-outline mb-4">
+      <div class="form-outline mb-4" style="position: relative;">
         <label for="loginPasswordRegister">Password</label>
-        <input class="form-control" type="password" id="loginPasswordRegister" name="password" [(ngModel)]="password" />
+        <input
+          class="form-control"
+          [type]="showPassword ? 'text' : 'password'"
+          id="loginPasswordRegister"
+          name="password"
+          [(ngModel)]="password"
+        />
+        <button
+          type="button"
+          (click)="toggleShowPassword()"
+          aria-label="Toggle password visibility"
+          style="
+            position: absolute;
+            top: 50%;
+            right: 0.75rem;
+            background: grey;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            font-size: 1rem;
+            line-height: 1;
+            color: white;
+            border-radius: 0.25rem;
+          "
+        >
+          <span *ngIf="showPassword">&#128065;</span>
+          <span *ngIf="!showPassword">&#128068;</span>
+        </button>
       </div>
       <button type="submit" class="btn btn-success btn-block mb-4">Register</button>
     </form>

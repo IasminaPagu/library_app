@@ -1,0 +1,7 @@
+.cart-container {
+  padding: 1rem;
+  h2 { margin-bottom: .5rem; }
+  .error { color: red; }
+  ul { list-style: none; padding: 0; }
+  li { margin: .25rem 0; }
+}

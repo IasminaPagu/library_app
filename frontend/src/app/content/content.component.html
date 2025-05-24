@@ -1,12 +1,11 @@
 <div>
 
   <app-buttons (loginEvent)="showComponent('login')"
-               (logoutEvent)="showComponent('welcome')"
-  />
-  <!-- i bind those events to a method
+               (logoutEvent)="showComponent('welcome')"></app-buttons>
 
-  -->
-  <app-welcome-content *ngIf="componentToShow == 'welcome'"/>
+
+
+<!--  <app-welcome-content *ngIf="componentToShow == 'welcome'"/>-->
   <!--  now i display the welcome content if the variable is
   is equal to welcome
 

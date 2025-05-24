@@ -1,23 +1,31 @@
-
 :root {
   --primary-color: #f7d9e3;      /* roz pudrat navbar */
   --accent-color: #c94f7c;       /* roz vișiniu pentru hover */
   --text-color: #4a4a4a;         /* text gri închis */
 }
 
+/* Lipește navbar-ul de sus, full width */
 .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+
+/* container intern centrat */
+.navbar-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--primary-color); /* ROZ pudrat */
-  padding: 12px 24px;
-  color: var(--text-color);
-  border-radius: 12px;
-  margin: 20px auto;
   max-width: 1200px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin: 0 auto;
+  padding: 12px 24px;
 }
 
+/* restul elementelor */
 .navbar-section {
   display: flex;
   align-items: center;
@@ -57,10 +65,24 @@
   background-color: var(--accent-color);
   color: white;
 }
+
 .logo-link {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
+/* Toggle-theme button */
+button.toggle-theme {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s;
+}
 
+button.toggle-theme:hover {
+  background-color: #8e24aa;
+}

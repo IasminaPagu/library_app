@@ -69,4 +69,15 @@ export class HeaderComponent {
     };
   }
 
+  isDark = false;
+
+    toggleTheme() {
+      this.isDark = !this.isDark;
+      document.body.classList.toggle('dark-mode', this.isDark);
+    }
+
+  private applyBodyClass() {
+    document.body.classList.toggle('dark-mode', this.isDark);
+  }
+
 }

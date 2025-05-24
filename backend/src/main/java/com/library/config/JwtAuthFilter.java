@@ -26,34 +26,28 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(header != null){
+        if (header != null) {
             String[] authElements = header.split(" ");
+            if (authElements.length == 2 && "Bearer".equals(authElements[0])) {
+                String rawToken = authElements[1];
 
-            if(authElements.length == 2 && "Bearer".equals(authElements[0])){
-                try{
-                    //in the HTTP filter i first check the HTTP verb
-                    //if it's a GET, i continue as before
-                    //otherwise, if it's a PUT
-                    //or DELETE i use a stronger vaidation
-                    if("GET".equals(request.getMethod())){
-                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateToken(authElements[1]));
-                    }else{
-                        SecurityContextHolder.getContext().setAuthentication(userAuthProvider.validateTokenStrongly(authElements[1]));
+                String token = rawToken.trim().replaceAll("^\"|\"$", "");
+
+                try {
+                    if ("GET".equals(request.getMethod())) {
+                        SecurityContextHolder.getContext()
+                                .setAuthentication(userAuthProvider.validateToken(token));
+                    } else {
+                        SecurityContextHolder.getContext()
+                                .setAuthentication(userAuthProvider.validateTokenStrongly(token));
                     }
-
-
                 } catch (RuntimeException e) {
                     SecurityContextHolder.clearContext();
-                    throw e;
+                    //throw e;
                 }
             }
         }
-         //i first check if there is an authorization header
-        //and the first part is a Bearer
 
-
-        //at the end continue the filter chain
-        filterChain.doFilter(request,response);
-        //and now i use this filter in the security config
+        filterChain.doFilter(request, response);
     }
 }

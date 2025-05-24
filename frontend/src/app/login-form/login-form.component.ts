@@ -46,4 +46,13 @@ export class LoginFormComponent {
     //this is the method which will pe used when i submit the register form
   }
 
+
+  showPassword = false;
+
+  toggleShowPassword(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+
+
 }

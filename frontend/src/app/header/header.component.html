@@ -1,10 +1,12 @@
 <header class="navbar">
   <div class="navbar-section logo-title">
     <a routerLink="/" class="logo-link">
-      <img [src]="logoSrc" class="app-logo" alt="logo" />
+      <img src="/assets/images/logo.png" alt="Library Logo" class="app-logo" />
     </a>
     <h1 class="app-title">{{ pageTitle }}</h1>
   </div>
+
+
 
 
 
@@ -23,6 +25,9 @@
     <button class="nav-button" (click)="logoutEvent.emit()">Logout</button>
     <button class="nav-button">Wishlist</button>
     <button class="nav-button">Coș</button>
+    <button class="toggle-theme" (click)="toggleTheme()">
+      {{ isDark ? '☀️ Light Mode' : '🌙 Dark Mode' }}
+    </button>
   </div>
   <app-book-card *ngFor="let book of books"
                  [book]="getBookWithImage(book)">

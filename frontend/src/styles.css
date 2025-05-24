@@ -70,6 +70,55 @@ button:hover {
     background-color: var(--secondary-color);
 }
 
+
+
+:root {
+  /* --- Light mode palette --- */
+  --bg-color:      #f5f5f5;      /* page background */
+  --fg-color:      #222222;      /* text */
+  --surface-color: #ffffff;      /* cards/panels */
+  --accent-color:  #466d1d;      /* <— your normal (light‐mode) button color */
+
+}
+
+body.dark-mode {
+  /* --- Dark mode overrides --- */
+  --bg-color:      #2e2e2e;
+  --fg-color:      #e0e0e0;
+  --surface-color: #3a3a3a;
+  --accent-color:  #8e44ad;      /* <— purple in dark mode */
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--fg-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+.card, .panel, header, main, footer {
+  background: var(--surface-color);
+  color: var(--fg-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* BUTTONS: always use the accent variable */
+button, .btn-primary {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  transition: filter 0.2s;
+}
+
+button:hover, .btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+
+
+
+
 /* ==================== LAYOUT ==================== */
 main {
     display: flex;
@@ -176,3 +225,13 @@ body {
   font-family: 'Arial', sans-serif;
   color: var(--text-color);
 }
+
+/* 1. Ensure html/body occupy full viewport */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+

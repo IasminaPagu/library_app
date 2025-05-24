@@ -59,4 +59,5 @@ export class ContentComponent {
             this.componentToShow = "messages";
            });
   }
+
 }
