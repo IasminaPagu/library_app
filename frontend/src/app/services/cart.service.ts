@@ -45,11 +45,11 @@ export class CartService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // ❗ FĂRĂ ghilimele extra
     });
-  
+
     console.log("📤 Token trimis:", token); // Adaugă pentru debug
-  
+
     return this.http.get<CartDto>(`${this.baseUrl}`, { headers });
   }
-  
-  
+
+
 }

@@ -1,20 +1,35 @@
 <!-- Tab navigation -->
 <ul class="nav nav-pills nav-justified mb-3">
   <li class="nav-item">
-    <button class="nav-link" [ngClass]="{ active: active === 'login' }" (click)="onLoginTab()">Login</button>
+    <button
+      class="nav-link"
+      [ngClass]="{ active: active === 'login' }"
+      (click)="onLoginTab()"
+    >
+      Login
+    </button>
   </li>
   <li class="nav-item">
-    <button class="nav-link" [ngClass]="{ active: active === 'register' }" (click)="onRegisterTab()">Register</button>
+    <button
+      class="nav-link"
+      [ngClass]="{ active: active === 'register' }"
+      (click)="onRegisterTab()"
+    >
+      Register
+    </button>
   </li>
 </ul>
 
 <!-- Tab content -->
 <div class="tab-content">
-
   <!-- Login Form -->
-  <div [ngClass]="{ 'tab-pane fade show active': active === 'login', 'tab-pane fade': active !== 'login' }">
+  <div
+    [ngClass]="{
+      'tab-pane fade show active': active === 'login',
+      'tab-pane fade': active !== 'login'
+    }"
+  >
     <form #loginForm="ngForm" (ngSubmit)="onSubmitLogin()">
-
       <div class="form-outline mb-4">
         <label for="loginName">Username</label>
         <input
@@ -33,38 +48,33 @@
           [type]="showPassword ? 'text' : 'password'"
           id="loginPassword"
           name="password"
+          (input)="onPasswordInput($any($event.target).value)"
           [(ngModel)]="password"
         />
         <button
           type="button"
-          (click)="toggleShowPassword()"
+          class="password-toggle"
+          (click)="togglePasswordVisibility()"
           aria-label="Toggle password visibility"
-          style="
-            position: absolute;
-            top: 50%;
-            right: 0.75rem;
-            background: grey;
-            border: none;
-            cursor: pointer;
-            padding: 0.25rem;
-            font-size: 1rem;
-            line-height: 1;
-            color: white;
-            border-radius: 0.25rem;
-          "
         >
           <span *ngIf="showPassword">&#128065;</span>
           <span *ngIf="!showPassword">&#128068;</span>
         </button>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
-
+      <button type="submit" class="btn btn-primary btn-block mb-4">
+        Sign in
+      </button>
     </form>
   </div>
 
   <!-- Register Form -->
-  <div [ngClass]="{ 'tab-pane fade show active': active === 'register', 'tab-pane fade': active !== 'register' }">
+  <div
+    [ngClass]="{
+      'tab-pane fade show active': active === 'register',
+      'tab-pane fade': active !== 'register'
+    }"
+  >
     <form #registerForm="ngForm" (ngSubmit)="onSubmitRegister()">
       <div class="form-outline mb-4">
         <label for="firstName">First Name</label>
@@ -76,6 +86,7 @@
           [(ngModel)]="firstName"
         />
       </div>
+
       <div class="form-outline mb-4">
         <label for="lastName">Last Name</label>
         <input
@@ -86,6 +97,7 @@
           [(ngModel)]="lastName"
         />
       </div>
+
       <div class="form-outline mb-4">
         <label for="loginNameRegister">Username</label>
         <input
@@ -96,6 +108,7 @@
           [(ngModel)]="login"
         />
       </div>
+
       <div class="form-outline mb-4" style="position: relative;">
         <label for="loginPasswordRegister">Password</label>
         <input
@@ -103,31 +116,40 @@
           [type]="showPassword ? 'text' : 'password'"
           id="loginPasswordRegister"
           name="password"
+          (input)="onPasswordInput($any($event.target).value)"
           [(ngModel)]="password"
         />
         <button
           type="button"
-          (click)="toggleShowPassword()"
+          class="password-toggle"
+          (click)="togglePasswordVisibility()"
           aria-label="Toggle password visibility"
-          style="
-            position: absolute;
-            top: 50%;
-            right: 0.75rem;
-            background: grey;
-            border: none;
-            cursor: pointer;
-            padding: 0.25rem;
-            font-size: 1rem;
-            line-height: 1;
-            color: white;
-            border-radius: 0.25rem;
-          "
         >
           <span *ngIf="showPassword">&#128065;</span>
           <span *ngIf="!showPassword">&#128068;</span>
         </button>
       </div>
-      <button type="submit" class="btn btn-success btn-block mb-4">Register</button>
+
+      <ul class="password-requirements mb-3">
+        <li [class.valid]="hasMinLength" [class.invalid]="!hasMinLength">
+          Cel puțin 8 caractere
+        </li>
+        <li [class.valid]="hasUpperCase" [class.invalid]="!hasUpperCase">
+          Cel puțin o literă mare
+        </li>
+        <li [class.valid]="hasSpecialChar" [class.invalid]="!hasSpecialChar">
+          Cel puțin un caracter special (! ; # , & …)
+        </li>
+
+      </ul>
+
+      <button
+        type="submit"
+        class="btn btn-success btn-block mb-4"
+        [disabled]="registerDisabled"
+      >
+        Register
+      </button>
     </form>
   </div>
 </div>

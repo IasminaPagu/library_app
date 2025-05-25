@@ -24,13 +24,13 @@ public class CartController {
             @AuthenticationPrincipal UserDto userDto,
             @RequestBody AddToCartRequest request) {
         CartDto cart = cartService.addToCart(userDto.getId(), request.bookId(), request.quantity());
-        System.out.println("➡️ userDto: " + userDto);
+        System.out.println("userDto: " + userDto);
         return ResponseEntity.ok(cart);
     }
 
     @GetMapping
     public ResponseEntity<CartDto> getCart(Authentication authentication) {
-        System.out.println("📌 principal: " + authentication.getPrincipal());
+        System.out.println("principal: " + authentication.getPrincipal());
 
         if (!(authentication.getPrincipal() instanceof UserDto userDto)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

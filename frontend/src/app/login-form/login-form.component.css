@@ -1,0 +1,33 @@
+.password-toggle {
+position: absolute;
+top: 50%;
+right: 0.75rem;
+background: grey;
+border: none;
+cursor: pointer;
+padding: 0.25rem;
+font-size: 1rem;
+line-height: 1;
+color: white;
+border-radius: 0.25rem;
+}
+.password-requirements {
+  list-style: none;
+  padding-left: 0;
+  font-size: 0.9rem;
+}
+.password-requirements li {
+  margin: 0.25rem 0;
+  transition: color 0.3s;
+}
+.password-requirements li.valid {
+  color: green;
+}
+.password-requirements li.invalid {
+  color: crimson;
+}
+
+/* butonul eye deja definit mai sus */
+.password-toggle {
+  /* ... */
+}
