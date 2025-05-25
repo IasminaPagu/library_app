@@ -13,7 +13,7 @@ import { AuthContentComponent } from '../auth-content/auth-content.component';
   imports: [LoginFormComponent,
             CommonModule,
             ButtonsComponent,
-            WelcomeContentComponent,
+            // WelcomeContentComponent,
             AuthContentComponent],
   templateUrl: './content.component.html',
   styleUrl: './content.component.css'

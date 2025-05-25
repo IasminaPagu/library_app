@@ -38,13 +38,12 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/books/search").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/cart/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/cart/**").permitAll()
-                               // .requestMatchers(HttpMethod.POST, "/cart/**").authenticated()
-                                //.requestMatchers(HttpMethod.GET,  "/cart/**").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/cart").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/cart/add").authenticated()
 
-//                                .requestMatchers(HttpMethod.GET, "/books/*").permitAll()
-//                                .requestMatchers(HttpMethod.GET, "/books/{id}").permitAll()
+                                // .requestMatchers(HttpMethod.GET, "/cart").authenticated()
+                                // .requestMatchers(HttpMethod.POST, "/cart/add").authenticated()
+
                                 .anyRequest().authenticated()
                 );
         return http.build();

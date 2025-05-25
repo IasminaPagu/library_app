@@ -24,6 +24,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain)
             throws ServletException, IOException {
+        System.out.println("📌 JwtAuthFilter activat pentru: " + request.getRequestURI());
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (header != null) {
@@ -41,6 +42,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext()
                                 .setAuthentication(userAuthProvider.validateTokenStrongly(token));
                     }
+
+                    System.out.println("✅ JWT valid, utilizator autentificat: " +
+                            SecurityContextHolder.getContext().getAuthentication().getName());
+                            
                 } catch (RuntimeException e) {
                     SecurityContextHolder.clearContext();
                     //throw e;

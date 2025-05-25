@@ -2,7 +2,6 @@ package com.library.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
 @Entity
@@ -18,5 +17,7 @@ public class Book {
     private String description;
     private String imageUrl;
     private String category;
+
+    private Integer stock;
 
 }

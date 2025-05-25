@@ -1,4 +1,4 @@
-<div class="cart">
+<!-- <div class="cart">
   <h2>Coșul tău</h2>
   <div *ngIf="loading">Se încarcă…</div>
   <div *ngIf="error" class="error">{{ error }}</div>
@@ -14,4 +14,14 @@
 
 // 5. Importă componenta și adaug-o în template
 // În src/app/app.component.html adaugă:
-<app-cart></app-cart>
+<app-cart></app-cart> -->
+<h2>Coșul meu</h2>
+<div *ngIf="cartItems.length === 0">Coșul este gol.</div>
+
+<div *ngFor="let item of cartItems" class="cart-item">
+  <img [src]="item.imageUrl" alt="{{ item.title }}" width="60" />
+  <div>
+    <h3>{{ item.title }}</h3>
+    <p>Cantitate: {{ item.quantity }}</p>
+  </div>
+</div>

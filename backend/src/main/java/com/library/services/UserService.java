@@ -5,38 +5,38 @@ import com.library.dtos.UserDto;
 import com.library.exceptions.AppException;
 import com.library.mappers.UserMapper;
 import com.library.model.User;
+import com.library.config.UserAuthProvider;
 import com.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.library.dtos.SignUpDto;
 import java.util.Optional;
 
-
-import java.nio.CharBuffer;
-
 @Service
 @RequiredArgsConstructor
-
 public class UserService {
     // i start by adding all the dependencies in my repository
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
-
+    private final UserAuthProvider authProvider;
 
     public UserDto login(CredentialsDto creds) {
-        User user = userRepository.findByLogin(creds.login())
-                .orElseThrow(() -> new UsernameNotFoundException("No user " + creds.login()));
-        if (!passwordEncoder.matches(creds.password(), user.getPassword())) {
-            throw new BadCredentialsException("Bad password");
-        }
-        // map entity → DTO (will include id)
-        return userMapper.toUserDto(user);
+    User user = userRepository.findByLogin(creds.getLogin())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+
+    if (!passwordEncoder.matches(creds.getPassword(), user.getPassword())) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
     }
+
+    return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), authProvider.createToken(user));
+}
+
 
     /** Used by CartController to look up the full UserDto by name in the JWT. */
     public UserDto findByLogin(String login) {
