@@ -1,0 +1,27 @@
+.wishlist-container {
+  padding: 1rem;
+}
+
+.wishlist-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 0.5rem 0;
+}
+
+.wishlist-item img {
+  width: 60px;
+  height: auto;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+
+.wishlist-item h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.wishlist-item p {
+  margin: 0.25rem 0 0;
+  color: #555;
+}

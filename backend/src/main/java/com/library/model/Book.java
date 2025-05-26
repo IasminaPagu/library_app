@@ -17,7 +17,5 @@ public class Book {
     private String description;
     private String imageUrl;
     private String category;
-
     private Integer stock;
-
 }

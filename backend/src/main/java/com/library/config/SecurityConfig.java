@@ -43,6 +43,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/cart").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/cart/add").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/wishlist").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/wishlist/add").authenticated()
 
                                 // .requestMatchers(HttpMethod.GET, "/cart").authenticated()
                                 // .requestMatchers(HttpMethod.POST, "/cart/add").authenticated()

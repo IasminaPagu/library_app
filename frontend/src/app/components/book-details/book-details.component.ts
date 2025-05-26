@@ -44,7 +44,7 @@ export class BookDetailsComponent implements OnInit {
 
     //const token = localStorage.getItem('jwtToken');
     //console.log('🔑 JWT token from storage:', token);
-const token = window.localStorage.getItem('auth_token');
+    const token = window.localStorage.getItem('auth_token');
 
     // 2) construiești header-ele
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -56,6 +56,28 @@ const token = window.localStorage.getItem('auth_token');
 
     this.http.post<{items:any[]}>(
       'http://localhost:8080/cart/add',
+      { bookId: this.book.id, quantity: 1 },
+      { headers }
+    ).subscribe({ /* ... */ });
+  }
+
+addToWishlist(): void {
+    if (!this.book) return;
+
+    //const token = localStorage.getItem('jwtToken');
+    //console.log('🔑 JWT token from storage:', token);
+    const token = window.localStorage.getItem('auth_token');
+
+    // 2) construiești header-ele
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    console.log('📤 Request headers:', { Authorization: headers.get('Authorization') });
+
+    this.http.post<{items:any[]}>(
+      'http://localhost:8080/wishlist/add',
       { bookId: this.book.id, quantity: 1 },
       { headers }
     ).subscribe({ /* ... */ });

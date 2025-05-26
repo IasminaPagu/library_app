@@ -19,11 +19,14 @@
     </button>
 
     <button class="nav-button" (click)="logout()">Logout</button>
-    <button class="nav-button">Wishlist</button>
 
     <!-- ✅ Buton "Coș" corect cu routerLink -->
     <a routerLink="/cart" routerLinkActive="active" class="nav-button">
       🛒 Coș
+    </a>
+
+    <a routerLink="/wishlist" routerLinkActive="active" class="nav-button">
+      🙏 Wishlist
     </a>
 
     <button class="toggle-theme" (click)="toggleTheme()">

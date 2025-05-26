@@ -1,0 +1,10 @@
+<h2>Wishlistul meu</h2>
+<div *ngIf="wishlistItems.length === 0">Wishlistul este gol.</div>
+
+<div *ngFor="let item of wishlistItems" class="wishlist-item">
+  <img [src]="item.imageUrl" alt="{{ item.title }}" width="60" />
+  <div>
+    <h3>{{ item.title }}</h3>
+    <p>Cantitate: {{ item.quantity }}</p>
+  </div>
+</div>
