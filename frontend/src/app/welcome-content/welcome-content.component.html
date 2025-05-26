@@ -1,3 +1,17 @@
+<div class="sort-controls" style="margin: 1rem 0; text-align: right;">
+  <label for="sortSelect">Sortare:</label>
+  <select
+    id="sortSelect"
+    [(ngModel)]="sortMode"
+    (ngModelChange)="applySort()"
+    class="form-select d-inline-block w-auto ms-2"
+  >
+    <option value="default">Implicit</option>
+    <option value="asc">Titlu A→Z</option>
+    <option value="desc">Titlu Z→A</option>
+  </select>
+</div>
+
 <div class="book-grid">
   <div
     class="book-card"
