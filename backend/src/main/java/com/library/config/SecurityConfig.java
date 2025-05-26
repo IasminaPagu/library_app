@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Configuration
@@ -54,8 +57,8 @@ public class SecurityConfig {
         //       meaning the server doesn't rely on any past interactions to fulfill a requests
         //In simpler terms:
         //Imagine you're calling a pizza place, and every time you call,
-        // you have to tell them your name, address, and order from scratch—they don’t remember anything
-        // from your previous call. That’s stateless.
+        // you have to tell them your name, address, and order from scratch—they don't remember anything
+        // from your previous call. That's stateless.
 
         //=> there is no nee to handle the session
         //make the login endpoint public --- permitAll

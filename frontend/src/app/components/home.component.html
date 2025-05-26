@@ -1,0 +1,32 @@
+<div class="homepage-container">
+  <h1>Descoperă cărți pentru orice gust</h1>
+  <div class="controls">
+    <div class="categories">
+      <button *ngFor="let cat of categories"
+              [class.active]="cat === selectedCategory"
+              (click)="setCategory(cat)">
+        {{ cat }}
+      </button>
+    </div>
+    <div class="sort">
+      Sortează după:
+      <button (click)="setSort('title')">Titlu</button>
+      <button (click)="setSort('author')">Autor</button>
+      <button (click)="setSort('year')">An</button>
+    </div>
+  </div>
+  <div class="book-list">
+    <div *ngFor="let book of filteredBooks" class="book-card">
+      <img [src]="book.imageUrl" [alt]="book.title" />
+      <div class="book-info">
+        <h2>{{ book.title }}</h2>
+        <p><strong>Autor:</strong> {{ book.author }}</p>
+        <p><strong>An:</strong> {{ book.year }}</p>
+        <p><strong>Categorie:</strong> {{ book.category }}</p>
+        <p>{{ book.description }}</p>
+        <button class="add-to-cart">Adaugă în coș</button>
+        <button class="add-to-wishlist">Wishlist</button>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.Authentication;
 import com.library.dtos.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @RestController
@@ -17,15 +18,14 @@ import com.library.dtos.UserDto;
 @RequestMapping("/cart")
 public class CartController {
 
-    private final CartService cartService;
+    @Autowired
+    private CartService cartService;
 
     @PostMapping("/add")
-    public ResponseEntity<CartDto> addToCart(
-            @AuthenticationPrincipal UserDto userDto,
-            @RequestBody AddToCartRequest request) {
-        CartDto cart = cartService.addToCart(userDto.getId(), request.bookId(), request.quantity());
-        System.out.println("userDto: " + userDto);
-        return ResponseEntity.ok(cart);
+    public ResponseEntity<?> addToCart(@RequestBody AddToCartRequest request, Authentication authentication) {
+        UserDto userDto = (UserDto) authentication.getPrincipal();
+        cartService.addToCart(userDto.getId(), request.getBookId(), 1);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping

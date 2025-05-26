@@ -11,12 +11,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import org.springframework.http.HttpHeaders;
 
-
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserAuthProvider userAuthProvider;
-
 
     @Override
     protected void doFilterInternal(
@@ -24,35 +22,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println("📌 JwtAuthFilter activat pentru: " + request.getRequestURI());
+        System.out.println("\uD83D\uDCCC JwtAuthFilter activat pentru: " + request.getRequestURI());
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (header != null) {
             String[] authElements = header.split(" ");
             if (authElements.length == 2 && "Bearer".equals(authElements[0])) {
                 String rawToken = authElements[1];
-
                 String token = rawToken.trim().replaceAll("^\"|\"$", "");
-
                 try {
-                    if ("GET".equals(request.getMethod())) {
-                        SecurityContextHolder.getContext()
-                                .setAuthentication(userAuthProvider.validateToken(token));
-                    } else {
-                        SecurityContextHolder.getContext()
-                                .setAuthentication(userAuthProvider.validateTokenStrongly(token));
-                    }
-
-                    System.out.println("✅ JWT valid, utilizator autentificat: " +
-                            SecurityContextHolder.getContext().getAuthentication().getName());
-                            
+                    // Always use validateToken for all HTTP methods
+                    var authentication = userAuthProvider.validateToken(token);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    System.out.println("✅ JWT valid, utilizator autentificat: " + authentication.getName());
+                    System.out.println("Principal: " + authentication.getPrincipal());
+                    System.out.println("Is authenticated: " + authentication.isAuthenticated());
                 } catch (RuntimeException e) {
                     SecurityContextHolder.clearContext();
-                    //throw e;
                 }
             }
         }
-
         filterChain.doFilter(request, response);
     }
 }
