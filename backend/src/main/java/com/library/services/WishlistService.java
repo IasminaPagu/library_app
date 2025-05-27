@@ -3,17 +3,13 @@ package com.library.services;
 import com.library.dtos.WishlistDto;
 import com.library.dtos.WishlistItemDTO;
 import com.library.exceptions.AppException;
-import com.library.model.Book;
-import com.library.model.Wishlist;
-import com.library.model.WishlistItem;
-import com.library.model.User;
-import com.library.repository.BookRepository;
-import com.library.repository.WishlistRepository;
-import com.library.repository.UserRepository;
+import com.library.model.*;
+import com.library.repository.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,15 +18,22 @@ import java.util.stream.Collectors;
 public class WishlistService {
 
     private final WishlistRepository wishlistRepository;
+    private final WishlistItemRepository itemRepo;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
 
     public WishlistService(WishlistRepository wishlistRepository,
                        BookRepository bookRepository,
-                       UserRepository userRepository) {
+                       UserRepository userRepository, WishlistItemRepository itemRepo,CartRepository cartRepository,
+                           CartItemRepository cartItemRepository) {
         this.wishlistRepository = wishlistRepository;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.itemRepo = itemRepo;
+        this.cartRepository = cartRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
     /**
@@ -108,4 +111,82 @@ public class WishlistService {
                                 i.getQuantity()))
                         .collect(Collectors.toList()));
     }
+
+    @Transactional
+    public boolean removeFromWishlist(Long userId, Long bookId) {
+        Wishlist wishlist = wishlistRepository.findByUserId(userId)
+                .orElseThrow(() -> new AppException("No wishlist for user " + userId, HttpStatus.NOT_FOUND));
+
+        Optional<WishlistItem> opt = wishlist.getItems().stream()
+                            // book.getId() is an Integer, bookId is a Long — compare as ints:
+                            .filter(i -> i.getBook().getId().equals(bookId.intValue()))
+                            .findFirst();
+
+        if (opt.isEmpty()) {
+            return false;
+        }
+
+        WishlistItem item = opt.get();
+        if (item.getQuantity() > 1) {
+            item.setQuantity(item.getQuantity() - 1);
+            itemRepo.save(item);
+        } else {
+            itemRepo.delete(item);
+        }
+        return true;
+    }
+
+    // în WishlistService
+    @Transactional
+    public void moveAllToCart(Long userId, Long bookId) {
+        // 1) Încarcă Wishlist & WishlistItems
+        Wishlist wishlist = wishlistRepository.findByUserId(userId)
+                .orElseThrow(() -> new AppException("Wishlist inexistent", HttpStatus.NOT_FOUND));
+
+        List<WishlistItem> items = wishlist.getItems().stream()
+                .filter(i -> i.getBook().getId().equals(bookId.intValue()))
+                .collect(Collectors.toList());
+
+        if (items.isEmpty()) {
+            throw new AppException("Cartea nu este în wishlist", HttpStatus.NOT_FOUND);
+        }
+
+        // 2) Calculează total qty
+        int totalQty = items.stream().mapToInt(WishlistItem::getQuantity).sum();
+
+        // 3) Şterge din colecţia entităţii şi salvează Wishlist-ul
+        wishlist.getItems().removeAll(items);
+        wishlistRepository.save(wishlist);
+
+        // 4) Apoi şterge efectiv înregistrările din tabel
+        itemRepo.deleteAll(items);
+
+        // 5) Încarcă/crează cart & CartItem
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException("User inexistent", HttpStatus.NOT_FOUND));
+        Cart cart = cartRepository.findByUser(user)
+                .orElseGet(() -> {
+                    Cart c = new Cart();
+                    c.setUser(user);
+                    return cartRepository.save(c);
+                });
+
+        CartItem cartItem = cart.getItems().stream()
+                .filter(ci -> ci.getBook().getId().equals(bookId.intValue()))
+                .findFirst()
+                .orElseGet(() -> {
+                    CartItem ci = new CartItem();
+                    ci.setBook(bookRepository.findById(Math.toIntExact(bookId))
+                            .orElseThrow(() -> new AppException("Book not found", HttpStatus.NOT_FOUND)));
+                    ci.setCart(cart);
+                    ci.setQuantity(0);
+                    cart.getItems().add(ci);
+                    return ci;
+                });
+
+        cartItem.setQuantity(cartItem.getQuantity() + totalQty);
+        cartItemRepository.save(cartItem);
+    }
+
 }
+

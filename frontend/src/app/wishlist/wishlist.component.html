@@ -1,10 +1,20 @@
+<!-- src/app/wishlist/wishlist.component.html -->
 <h2>Wishlistul meu</h2>
 <div *ngIf="wishlistItems.length === 0">Wishlistul este gol.</div>
 
-<div *ngFor="let item of wishlistItems" class="wishlist-item">
-  <img [src]="item.imageUrl" alt="{{ item.title }}" width="60" />
-  <div>
-    <h3>{{ item.title }}</h3>
-    <p>Cantitate: {{ item.quantity }}</p>
+<div class="wishlist-grid">
+  <div class="wishlist-card" *ngFor="let item of wishlistItems">
+    <img
+      [src]="item.imageUrl"
+      [alt]="'Copertă ' + item.bookId"
+      class="wishlist-cover"
+    />
+    <div class="wishlist-info">
+      <div class="wishlist-title">{{ item.title }}</div>
+      <div class="wishlist-qty">Cantitate: {{ item.quantity }}</div>
+      <button (click)="moveToCart(item.bookId)" [disabled]="item.quantity < 1">
+        Mută în coș
+      </button>
+    </div>
   </div>
 </div>

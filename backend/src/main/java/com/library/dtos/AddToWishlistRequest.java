@@ -1,12 +1,10 @@
 package com.library.dtos; // or DTOs if that's your package
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class AddToWishlistRequest {
     private Long bookId;
-
-    public Long getBookId() {
-        return bookId;
-    }
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
-    }
 }

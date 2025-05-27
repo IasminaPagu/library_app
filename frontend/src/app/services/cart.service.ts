@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 export interface CartItem {
   bookId: number;
@@ -12,28 +13,28 @@ export interface CartItem {
 export interface CartDto {
   items: CartItem[];
 }
-
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class CartService {
-  private baseUrl = 'http://localhost:8080/cart';
+  private baseUrl = `${environment.apiUrl}/cart`;
 
   constructor(private http: HttpClient) {}
 
-  addToCart(bookId: number) {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.post(`${this.baseUrl}/add`, { bookId }, { headers });
+  addToCart(bookId: number, quantity: number = 1): Observable<void> {
+    const headers = this.authHeaders();
+    return this.http.post<void>(
+      `${environment.apiUrl}/wishlist/move-to-cart`,
+      { bookId, quantity },
+      { headers }
+    );
   }
 
   getCart(): Observable<CartDto> {
-    const token = localStorage.getItem('auth_token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    return this.http.get<CartDto>(`${this.baseUrl}`, { headers });
+    const headers = this.authHeaders();
+    return this.http.get<CartDto>(this.baseUrl, { headers });
+  }
+
+  private authHeaders(): HttpHeaders {
+    const token = localStorage.getItem('auth_token') || '';
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 }
