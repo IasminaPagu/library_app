@@ -36,7 +36,7 @@ export class WishlistComponent implements OnInit {
         const agg: Record<number, WishlistItemWithImage> = {};
         dto.items.forEach(it => {
           if (!agg[it.bookId]) {
-            agg[it.bookId] = { ...it, imageUrl: `/assets/images/${it.bookId}.jpg` };
+            agg[it.bookId] = { ...it, imageUrl: `http://localhost:8080/uploads/${it.bookId}.jpg` };
           } else {
             agg[it.bookId].quantity += it.quantity;
           }

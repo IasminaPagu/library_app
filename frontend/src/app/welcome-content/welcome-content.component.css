@@ -43,3 +43,56 @@
   font-weight: bold;
   font-size: 1rem;
 }
+
+.card-controls {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  gap: 0.3rem;
+}
+
+.card-controls button {
+  background: rgba(255,255,255,0.8);
+  border: none;
+  padding: 0.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.card-controls button:hover {
+  background: rgba(200,200,200,0.8);
+}
+
+.book-form {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+.book-form div {
+  margin-bottom: 0.5rem;
+}
+.book-form label {
+  display: block;
+  font-weight: bold;
+}
+.book-form input,
+.book-form textarea {
+  width: 100%;
+  padding: 0.3rem;
+  box-sizing: border-box;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.form-buttons button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}

@@ -23,7 +23,7 @@ export class CartComponent implements OnInit {
         if (!aggregated[item.bookId]) {
           aggregated[item.bookId] = {
             ...item,
-            imageUrl: '/assets/images/' + item.bookId + '.jpg'
+            imageUrl: `http://localhost:8080/uploads/${item.bookId}.jpg`
           };
         } else {
           aggregated[item.bookId].quantity += item.quantity;

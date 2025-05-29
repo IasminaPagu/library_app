@@ -54,6 +54,8 @@ public class WishlistService {
                     return wishlistRepository.save(w);
                 });
 
+
+
         // 3. Încarcă cartea
         Book book = bookRepository.findById(Math.toIntExact(bookId))
                 .orElseThrow(() -> new AppException("Book not found", HttpStatus.NOT_FOUND));

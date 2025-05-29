@@ -72,13 +72,13 @@ export class HeaderComponent {
   }
 
  logout(): void {
-    // 1) clear the saved JWT
-    this.axiosService.setAuthToken(null);
-    // 2) show the "logged out" alert
-    alert('👋 You have been logged out.');
-    // 3) navigate home (or wherever you like)
-    this.router.navigateByUrl('/');
-  }
+   // 1) curățăm complet JWT + login
+   this.axiosService.logout();    // în loc de setAuthToken(null)
+   // 2) mesaj
+   alert('👋 You have been logged out.');
+   // 3) redirect
+   this.router.navigateByUrl('/');
+ }
 
   getBookWithImage(book: Book): Book {
     return {

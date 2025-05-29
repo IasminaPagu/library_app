@@ -1,27 +1,36 @@
 <div class="book-details-wrapper" *ngIf="book; else errorBlock">
   <div class="book-card">
+    <!-- 1) cover on the left -->
     <img
       class="book-cover-detail"
-      [src]="'/assets/images/' + book.imageUrl"
+      [src]="'http://localhost:8080/uploads/' + book.imageUrl"
       [alt]="book.title"
     />
 
+    <!-- 2) metadata + buttons on the right -->
     <div class="book-info">
       <h2>{{ book.title }}</h2>
-
+      <p><strong>În stoc:</strong> {{ book.stock }}</p>
       <p><strong>Autor:</strong> {{ book.author }}</p>
       <p><strong>ISBN:</strong> {{ book.isbn }}</p>
       <p><strong>An publicare:</strong> {{ book.publishedYear }}</p>
       <p><strong>Categorie:</strong> {{ book.category }}</p>
       <p><strong>Descriere:</strong> {{ book.description }}</p>
-      <button type="button" (click)="addToCart()">Adaugă în coș</button>
-      <button type="button" (click)="addToWishlist()">Adaugă în wishlist</button>
+
+      <div class="book-buttons">
+        <button
+          type="button"
+          (click)="addToCart()"
+          [disabled]="book.stock === 0"
+        >
+          Adaugă în coș
+        </button>
+        <button type="button" (click)="addToWishlist()">Adaugă în wishlist</button>
+      </div>
     </div>
   </div>
-
-
 </div>
 
 <ng-template #errorBlock>
-  <p class="error-message">Cartea nu a fost gasita.</p>
+  <p class="error-message">Cartea nu a fost găsită.</p>
 </ng-template>

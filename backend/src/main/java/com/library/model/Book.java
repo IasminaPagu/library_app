@@ -17,5 +17,6 @@ public class Book {
     private String description;
     private String imageUrl;
     private String category;
-    private Integer stock;
+    @Column(name="stock", nullable=false)
+    private Integer stock = 0;
 }

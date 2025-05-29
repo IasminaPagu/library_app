@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.library.dtos.SignUpDto;
+
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -26,16 +28,69 @@ public class UserService {
     private final UserMapper userMapper;
     private final UserAuthProvider authProvider;
 
-    public UserDto login(CredentialsDto creds) {
-    User user = userRepository.findByLogin(creds.getLogin())
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+    private static final Map<String,String> ADMIN_PASSWORDS = Map.of(
+            "vlad",    "parolaVlad#",
+            "iasmina", "parolaIasmina#",
+            "gety",    "parolaGety#"
+    );
 
-    if (!passwordEncoder.matches(creds.getPassword(), user.getPassword())) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+
+//    public UserDto login(CredentialsDto creds) {
+//    User user = userRepository.findByLogin(creds.getLogin())
+//            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+//
+//    if (!passwordEncoder.matches(creds.getPassword(), user.getPassword())) {
+//        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+//    }
+//
+//    return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), authProvider.createToken(user));
+//}
+
+    public UserDto login(CredentialsDto creds) {
+        String login = creds.getLogin();
+        String rawPwd = creds.getPassword();
+
+        // 1) Verificăm hard-codat adminii
+        if (ADMIN_PASSWORDS.containsKey(login)) {
+            String adminPwd = ADMIN_PASSWORDS.get(login);
+            if (!adminPwd.equals(rawPwd)) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+            }
+            // e un admin valid ⇒ generăm token și returnăm UserDto
+            User admin = new User();
+            admin.setId(-1L);                     // sau orice ID dummy
+            admin.setFirstName(login);            // poți pune un nume fix
+            admin.setLastName("Admin");
+            admin.setLogin(login);
+            String token = authProvider.createToken(admin);
+
+            return new UserDto(
+                    admin.getId(),
+                    admin.getFirstName(),
+                    admin.getLastName(),
+                    admin.getLogin(),
+                    token
+            );
+        }
+
+        // 2) Altfel: fallback la utilizatorii normali din baza ta
+        User user = userRepository.findByLogin(login)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+
+        if (!passwordEncoder.matches(rawPwd, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+        }
+
+        String token = authProvider.createToken(user);
+        return new UserDto(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getLogin(),
+                token
+        );
     }
 
-    return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), authProvider.createToken(user));
-}
 
 
     /** Used by CartController to look up the full UserDto by name in the JWT. */

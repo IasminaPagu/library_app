@@ -43,6 +43,14 @@ export class LoginPageComponent {
     this.axios.request('post', '/login', creds)
       .then(resp => {
         this.axios.setAuthToken(resp.data.token);
+        this.axios.setAuthLogin(resp.data.login);
+
+        const { login, password } = creds;
+        const isAdmin = (login === 'vlad'    && password === 'parolaVlad#')
+                     || (login === 'iasmina' && password === 'parolaIasmina#')
+                     || (login === 'gety'    && password === 'parolaGety#');
+        this.axios.setIsAdmin(isAdmin);
+
         alert('You have logged in successfully!');
         this.router.navigateByUrl(this.returnUrl);
       })
@@ -56,6 +64,7 @@ export class LoginPageComponent {
     this.axios.request('post', '/register', signup)
       .then(resp => {
         this.axios.setAuthToken(resp.data.token);
+        this.axios.setAuthLogin(resp.data.login);
         this.router.navigateByUrl(this.returnUrl);
       })
       .catch(err => {

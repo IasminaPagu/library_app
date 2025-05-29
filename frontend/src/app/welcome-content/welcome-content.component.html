@@ -1,3 +1,52 @@
+<!-- src/app/welcome-content/welcome-content.component.html -->
+
+<div class="home-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+  <h2>Toate cărțile</h2>
+  <!-- butonul de creare apare doar dacă e admin -->
+  <button *ngIf="axiosService.isAdmin()" (click)="openCreateForm()">
+    ➕ Adaugă carte
+  </button>
+</div>
+
+<div *ngIf="formVisible" class="book-form">
+  <h3 *ngIf="formMode==='create'">Adaugă o carte nouă</h3>
+  <h3 *ngIf="formMode==='update'">Modifică cartea</h3>
+  <form [formGroup]="bookForm" (ngSubmit)="submitForm()">
+    <div><label>Titlu</label><input formControlName="title" required /></div>
+    <div><label>Autor</label><input formControlName="author" /></div>
+    <div><label>ISBN</label><input formControlName="isbn" /></div>
+    <div><label>An publicare</label><input type="number" formControlName="publishedYear" /></div>
+    <div><label>Categorie</label><input formControlName="category" /></div>
+    <div><label>Descriere</label><textarea formControlName="description"></textarea></div>
+    <div>
+      <label>Imagine</label>
+      <input type="file"
+             accept="image/*"
+             (change)="onFileSelected($event)" />
+    </div>
+    <div *ngIf="previewUrl" class="image-preview">
+      <label>Previzualizare:</label>
+      <img [src]="previewUrl" alt="Preview" width="120" />
+    </div>
+    <div>
+      <label>Stoc</label>
+      <input
+        type="number"
+        formControlName="stock"
+        min="0"
+        required
+      />
+    </div>
+    <div><label>URL imagine</label><input formControlName="imageUrl" /></div>
+    <div class="form-buttons">
+      <button type="submit">
+        {{ formMode==='create' ? 'Salvează cartea' : 'Actualizează cartea' }}
+      </button>
+      <button type="button" (click)="cancelForm()">Anulează</button>
+    </div>
+  </form>
+</div>
+
 <div class="sort-controls" style="margin: 1rem 0; text-align: right;">
   <label for="sortSelect">Sortare:</label>
   <select
@@ -13,16 +62,26 @@
 </div>
 
 <div class="book-grid">
-  <div
-    class="book-card"
-    *ngFor="let book of books"
-    [routerLink]="['/books', book.id]"
-  >
-    <img
-      class="book-cover"
-      [src]="'/assets/images/' + book.imageUrl"
-      [alt]="book.title"
-    />
-    <div class="book-title">{{ book.title }}</div>
+  <div class="book-card" *ngFor="let book of books">
+    <!-- click pe imagine/titlu → duce la detalii -->
+    <a [routerLink]="['/books', book.id]" class="book-link">
+<!--      <img-->
+<!--        class="book-cover"-->
+<!--        [src]="'/assets/images/' + book.imageUrl"-->
+<!--        [alt]="book.title"-->
+<!--      />-->
+      <img
+        class="book-cover"
+        [src]="'http://localhost:8080/uploads/' + book.imageUrl"
+        [alt]="book.title"
+      />
+      <div class="book-title">{{ book.title }}</div>
+    </a>
+
+    <!-- controale de admin -->
+    <div class="card-controls" *ngIf="axiosService.isAdmin()">
+      <button (click)="openEditForm(book); $event.stopPropagation()">✏️</button>
+      <button (click)="deleteBook(book);    $event.stopPropagation()">🗑️</button>
+    </div>
   </div>
 </div>

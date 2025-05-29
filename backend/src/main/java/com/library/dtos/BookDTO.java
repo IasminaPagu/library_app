@@ -4,6 +4,7 @@ public class BookDTO {
     private Long id;
     private String title;
     private String author;
+    public Integer stock;
 
     public BookDTO() {}
 

@@ -20,7 +20,6 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-
 public class SecurityConfig {
 
     public final UserAuthProvider userAuthProvider;
@@ -39,15 +38,16 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/register").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/messages").permitAll() // 👈 allow access
                                 .requestMatchers(HttpMethod.GET, "/books/search").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/").permitAll()
+                                //.requestMatchers(HttpMethod.POST, "/").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/books/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/cart").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/cart/add").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/wishlist").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/wishlist/add").authenticated()
-
+                                .requestMatchers("/uploads/**").permitAll()
                                 // .requestMatchers(HttpMethod.GET, "/cart").authenticated()
                                 // .requestMatchers(HttpMethod.POST, "/cart/add").authenticated()
+
 
                                 .anyRequest().authenticated()
                 );

@@ -9,6 +9,10 @@ import axios, {
   providedIn: 'root'
 })
 export class AxiosService {
+  private tokenKey = 'auth_token';
+  private loginKey = 'auth_login';
+  private adminKey = 'is_admin';
+
   constructor() {
     axios.defaults.baseURL = 'http://localhost:8080';
     axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -18,6 +22,12 @@ export class AxiosService {
       (config: InternalAxiosRequestConfig) => {
         // ensure headers object exists
         config.headers = config.headers || {};
+
+        if (!(config.data instanceof FormData)) {
+                 config.headers['Content-Type'] = 'application/json';
+                } else {
+                 delete config.headers['Content-Type'];
+                }
 
         const token = this.getAuthToken();
         if (token) {
@@ -42,11 +52,40 @@ export class AxiosService {
     }
   }
 
-  /**
-   * Generic request helper
-   */
+  isAdmin(): boolean {
+    const l = this.getAuthLogin();
+    return l === 'vlad' || l === 'iasmina' || l === 'gety';
+  }
+setIsAdmin(flag: boolean): void {
+    window.localStorage.setItem(this.adminKey, flag ? 'true' : 'false');
+  }
+
+  /** Returnează true dacă user-ul s-a logat cu credențiale de admin */
+  getIsAdmin(): boolean {
+    return window.localStorage.getItem(this.adminKey) === 'true';
+  }
+
   request(method: string, url: string, data?: any): Promise<any> {
     const cfg: AxiosRequestConfig = { method, url, data };
     return axios(cfg);
+  }
+
+getAuthLogin(): string | null {
+    return window.localStorage.getItem(this.loginKey);
+  }
+
+  setAuthLogin(login: string | null): void {
+    if (login) {
+      window.localStorage.setItem(this.loginKey, login);
+    } else {
+      window.localStorage.removeItem(this.loginKey);
+    }
+  }
+
+logout(): void {
+    // ştergi JWT-ul
+    window.localStorage.removeItem(this.tokenKey);
+    // ştergi login-ul
+    window.localStorage.removeItem(this.loginKey);
   }
 }
