@@ -38,29 +38,33 @@
         }
       });
     }
-
     addToCart(): void {
       if (!this.book) return;
 
-      //const token = localStorage.getItem('jwtToken');
-      //console.log('🔑 JWT token from storage:', token);
       const token = window.localStorage.getItem('auth_token');
 
-      // 2) construiești header-ele
       let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       if (token) {
         headers = headers.set('Authorization', `Bearer ${token}`);
       }
 
-      console.log('📤 Request headers:', { Authorization: headers.get('Authorization') });
-
-      this.http.post<{items:any[]}>(
+      this.http.post<{ items: any[] }>(
         'http://localhost:8080/cart/add',
         { bookId: this.book.id, quantity: 1 },
         { headers }
-      ).subscribe({ /* ... */ });
+      ).subscribe({
+        next: () => {
+          alert("Cartea a fost adăugată în coș.");
+        },
+        error: (err) => {
+          if (err.status === 400) {
+            alert(err.error?.message || "Cartea selectată este indisponibilă momentan.");
+          } else {
+            alert("A apărut o eroare. Încercați din nou mai târziu.");
+          }
+        }
+      });
     }
-
   addToWishlist(): void {
       if (!this.book) return;
 

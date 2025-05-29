@@ -9,29 +9,29 @@ import com.library.model.CartItem;
 import com.library.model.User;
 import com.library.repository.BookRepository;
 import com.library.repository.CartRepository;
+import com.library.repository.CartItemRepository;
 import com.library.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CartService {
 
         private final CartRepository cartRepository;
         private final BookRepository bookRepository;
         private final UserRepository userRepository;
+        private final CartItemRepository cartItemRepository;
 
-        public CartService(CartRepository cartRepository,
-                        BookRepository bookRepository,
-                        UserRepository userRepository) {
-                this.cartRepository = cartRepository;
-                this.bookRepository = bookRepository;
-                this.userRepository = userRepository;
-        }
 
         /**
          * Adaugă o carte în coș (sau crește cantitatea dacă există deja), doar dacă
@@ -108,4 +108,14 @@ public class CartService {
                                                                 i.getQuantity()))
                                                 .collect(Collectors.toList()));
         }
+        
+        public List<CartItem> getCartItems(Long userId) {
+                return cartItemRepository.findByCartUserId(userId);
+        }
+
+        public void clearCart(Long userId) {
+                List<CartItem> items = cartItemRepository.findByCartUserId(userId);
+                cartItemRepository.deleteAll(items);
+        }           
+            
 }

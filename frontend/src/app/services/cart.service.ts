@@ -37,4 +37,12 @@ export class CartService {
     const token = localStorage.getItem('auth_token') || '';
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
+  finalizeOrder(): Observable<any> {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post('http://localhost:8080/cart/checkout', {}, { headers });
+  }
 }

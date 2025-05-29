@@ -18,11 +18,7 @@
       <p><strong>Descriere:</strong> {{ book.description }}</p>
 
       <div class="book-buttons">
-        <button
-          type="button"
-          (click)="addToCart()"
-          [disabled]="book.stock === 0"
-        >
+        <button type="button" (click)="addToCart()">
           Adaugă în coș
         </button>
         <button type="button" (click)="addToWishlist()">Adaugă în wishlist</button>

@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/wishlist").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/wishlist/add").authenticated()
                                 .requestMatchers("/uploads/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/cart/checkout").authenticated()
                                 // .requestMatchers(HttpMethod.GET, "/cart").authenticated()
                                 // .requestMatchers(HttpMethod.POST, "/cart/add").authenticated()
 
