@@ -1,11 +1,60 @@
 <!-- src/app/welcome-content/welcome-content.component.html -->
 
 <div class="home-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-  <h2>Toate cărțile</h2>
+  <button class="btn btn-secondary me-2" (click)="toggleFilters()">
+    {{ showFilters ? 'Ascunde filtre' : 'Afișează filtre' }}
+  </button>
+
+  <button *ngIf="axiosService.isAdmin()" (click)="exportBooksToCSV()" class="btn btn-outline-success me-2">
+    📁 Exportă cărțile (CSV)
+  </button>
+
   <!-- butonul de creare apare doar dacă e admin -->
   <button *ngIf="axiosService.isAdmin()" (click)="openCreateForm()">
     ➕ Adaugă carte
   </button>
+</div>
+
+<!-- filtre -->
+<div *ngIf="showFilters" class="filter-controls" style="margin-bottom: 1rem;">
+  <label style="margin-right: 10px;">
+    Autor:
+    <select [(ngModel)]="filterAuthor" (ngModelChange)="applyFilters()">
+      <option value="">-- Toți autorii --</option>
+      <option *ngFor="let author of uniqueAuthors" [value]="author">
+        {{ author }}
+      </option>
+    </select>
+  </label>
+
+  <label style="margin-right: 10px;">
+    Categorie:
+    <select [(ngModel)]="filterCategory" (ngModelChange)="applyFilters()">
+      <option value="">-- Toate categoriile --</option>
+      <option *ngFor="let category of uniqueCategories" [value]="category">
+        {{ category }}
+      </option>
+    </select>
+  </label>
+
+  <label style="margin-right: 10px;">
+    Stoc:
+    <select [(ngModel)]="filterInStockOnly" (ngModelChange)="applyFilters()">
+      <option [ngValue]="null">-- Oricare --</option>
+      <option [ngValue]="true">✔️ În stoc</option>
+      <option [ngValue]="false">❌ Epuizat</option>
+    </select>
+  </label>
+
+  <label style="margin-right: 10px;">
+    An min:
+    <input type="number" [(ngModel)]="filterYearMin" (ngModelChange)="applyFilters()" style="width: 90px;" />
+  </label>
+
+  <label style="margin-right: 10px;">
+    An max:
+    <input type="number" [(ngModel)]="filterYearMax" (ngModelChange)="applyFilters()" style="width: 90px;" />
+  </label>
 </div>
 
 <div *ngIf="formVisible" class="book-form">

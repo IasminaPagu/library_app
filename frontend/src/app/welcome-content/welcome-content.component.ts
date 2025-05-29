@@ -45,6 +45,17 @@ export class WelcomeContentComponent implements OnInit {
   selectedFile: File | null = null;
   previewUrl:   string | null = null;
 
+
+  showFilters = false;
+    filterCategory = '';
+    filterAuthor = '';
+    filterInStockOnly: boolean = false;
+    filterYearMin: number | null = null;
+    filterYearMax: number | null = null;
+
+    uniqueAuthors: string[] = [];
+    uniqueCategories: string[] = [];
+
  constructor(
      public axiosService: AxiosService,
      private fb: FormBuilder
@@ -66,14 +77,83 @@ export class WelcomeContentComponent implements OnInit {
   }
 
   private loadBooks(): void {
-    this.axiosService
-      .request('GET', '/books')
-      .then(response => {
-        this.originalBooks = response.data;
-        this.applySort();
-      })
-      .catch(err => console.error('could not load books', err));
-  }
+      this.axiosService
+        .request('GET', '/books')
+        .then(response => {
+          this.originalBooks = response.data;
+          this.uniqueAuthors = [...new Set(this.originalBooks.map(b => b.author))];
+          this.uniqueCategories = [...new Set(this.originalBooks.map(b => b.category))];
+          this.applySort();
+          this.applyFilters();
+        })
+        .catch(err => console.error('could not load books', err));
+    }
+
+  toggleFilters() {
+      this.showFilters = !this.showFilters;
+    }
+
+    applyFilters() {
+      this.books = this.originalBooks.filter(book => {
+        const categoryMatch = this.filterCategory
+          ? book.category.toLowerCase().includes(this.filterCategory.toLowerCase())
+          : true;
+        const authorMatch = this.filterAuthor
+          ? book.author.toLowerCase().includes(this.filterAuthor.toLowerCase())
+          : true;
+        const stockMatch = this.filterInStockOnly ? book.stock > 0 : true;
+        const yearMatch = (
+          (!this.filterYearMin || book.publishedYear >= this.filterYearMin) &&
+          (!this.filterYearMax || book.publishedYear <= this.filterYearMax)
+        );
+        return categoryMatch && authorMatch && stockMatch && yearMatch;
+      });
+    }
+
+  exportBooksToCSV() {
+      if (!this.axiosService.isAdmin()) {
+        alert('Doar adminii pot exporta datele!');
+        return;
+      }
+
+      this.axiosService.request('GET', '/books').then((response: any) => {
+        const books = response.data;
+
+        if (!books || books.length === 0) {
+          alert('Nu există cărți de exportat.');
+          return;
+        }
+
+        const separator = ';';
+        const header = ['ID', 'Titlu', 'Autor', 'ISBN', 'An Publicare', 'Categorie', 'Descriere'];
+        const rows = books.map((book: any) => [
+          book.id,
+          book.title?.replace(/"/g, '""'),
+          book.author?.replace(/"/g, '""'),
+          book.isbn,
+          book.publishedYear,
+          book.category,
+          book.description?.replace(/"/g, '""') || ''
+        ]);
+
+        let csvContent = header.join(separator) + '\n';
+        rows.forEach((row: any[]) => {
+          csvContent += row.map((value: any) => `"${value}"`).join(separator) + '\n';
+        });
+
+        const BOM = '\uFEFF';
+        const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.setAttribute('download', 'carti_export.csv');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }).catch(err => {
+        console.error('Eroare la export:', err);
+        alert('A apărut o eroare la exportul cărților.');
+      });
+    }
 
   /** Called whenever sortMode changes or on initial load */
   applySort() {
