@@ -1,8 +1,9 @@
-#LibriSfera
+# LibriSfera
 
 LibriSfera is a full-stack web application designed for managing a digital library experience, enabling users to browse books, manage their cart and wishlist, and place orders. It also includes a dedicated administration section for managing the inventory via CRUD operations.
 
-###**Features**
+### **Features**
+
 🏠**Home Navigation**
 -clicking on the logo redirects the user to the home page for seamless navigation.
 
@@ -29,7 +30,7 @@ If logged in with admin credentials, users gain access to a management panel to:
 -delete books from the catalog
 -update stock values
 
-###**User Roles**
+### **User Roles**
 
 **Regular Users:**
 -browse books
@@ -41,7 +42,7 @@ If logged in with admin credentials, users gain access to a management panel to:
 -access to inventory management features (CRUD)
 -view and export customer data
 
-###**Technologies Used**
+### **Technologies Used**
 
 Frontend: **Angular** (TypeScript, HTML, CSS)
 Backend: **Spring Boot** (Java)
@@ -49,7 +50,7 @@ Database: **MySQL**
 Authentication: **JWT-based login system** and **Axios Service**
 
 
-###**Setup Instructions**
+### **Setup Instructions**
 Backend
 
 cd backend
@@ -63,7 +64,7 @@ npm start
 
 
 
-###**Notes**
+### **Notes**
 
 All endpoints are protected by JWT-based authentication.
 Admin features are automatically enabled for users with the ADMIN role.
